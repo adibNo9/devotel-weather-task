@@ -1,10 +1,17 @@
-import HomeScreen from './components/HomeScreen';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
+
+import WeatherContainer from './containers/weather-container';
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <div>
-      <HomeScreen />
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <WeatherContainer />
+    </QueryClientProvider>
   );
 }
 
