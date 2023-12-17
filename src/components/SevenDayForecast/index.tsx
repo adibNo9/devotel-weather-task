@@ -16,22 +16,24 @@ const SevenDayForeCast = () => {
   const sevenDayForeCastContent = () => {
     return (
       <div ref={SevenDayContentRef}>
-        {data?.map((item, index) => {
+        {data?.map((day, dayIndex) => {
           const itemWrapper = cls({
             "flex justify-between py-2": true,
-            "border-b": index !== 6,
+            "border-b": dayIndex !== 6,
           });
           return (
-            <div className={itemWrapper}>
+            <div key={`day-${dayIndex + 1}`} className={itemWrapper}>
               <p className="w-24">
-                {index === 0 ? "Today" : moment(item?.datetime).format("dddd")}
+                {dayIndex === 0
+                  ? "Today"
+                  : moment(day?.datetime).format("dddd")}
               </p>
               <img
                 className="w-6"
-                src={`/assets/icons/${item?.weather.icon}.png`}
-                alt={item?.weather.description}
+                src={`/assets/icons/${day?.weather.icon}.png`}
+                alt={day?.weather.description}
               />
-              <p className="text-xl w-20 text-right">{item?.temp}°c</p>
+              <p className="text-xl w-20 text-right">{day?.temp}°c</p>
             </div>
           );
         })}

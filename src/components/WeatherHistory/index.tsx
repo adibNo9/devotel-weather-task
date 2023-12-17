@@ -18,7 +18,31 @@ const WeatherHistory = () => {
     weatherHistoryToggleHandler,
   } = useLogic();
 
-  const weatherHistoryContent = () => {
+  const renderDayContent = () => {
+    if (!data?.[0].temp && endDate)
+      return <p className="text-red-200 pb-4">No Data available!</p>;
+    return data?.map((day, dayIndex) => {
+      const length = data.length;
+      const itemWrapper = cls({
+        "flex justify-between py-2 w-full": true,
+        "border-b": dayIndex !== length - 1,
+      });
+      if (!day.temp) return null;
+      return (
+        <div key={`day-${dayIndex + 1}`} className={itemWrapper}>
+          <p className="w-24">{moment(day?.datetime).format("dddd")}</p>
+          <div className="flex gap-1">
+            <p>{day?.max_wind_spd}</p>
+            <WiStrongWind size={25} />
+          </div>
+
+          <p className="text-xl w-20 text-right">{day?.temp}°c</p>
+        </div>
+      );
+    });
+  };
+
+  const renderWeatherHistory = () => {
     return (
       <div
         ref={weatherHistoryContentRef}
@@ -34,44 +58,20 @@ const WeatherHistory = () => {
             selectsRange
           />
         </div>
-        {!data?.[0].temp && endDate ? (
-          <p className="text-red-200 pb-4">No Data available!</p>
-        ) : (
-          data?.map((item, index) => {
-            const length = data.length;
-            const itemWrapper = cls({
-              "flex justify-between py-2 w-full": true,
-              "border-b": index !== length - 1,
-            });
-            if (!item.temp) return null;
-            return (
-              <div className={itemWrapper}>
-                <p className="w-24">{moment(item?.datetime).format("dddd")}</p>
-                <div className="flex gap-1">
-                  <p>{item?.max_wind_spd}</p>
-                  <WiStrongWind size={25} />
-                </div>
-
-                <p className="text-xl w-20 text-right">{item?.temp}°c</p>
-              </div>
-            );
-          })
-        )}
+        {renderDayContent()}
       </div>
     );
   };
 
   return (
-    <>
-      <Accordion
-        contentHeight={contentHeight}
-        ariaControls="Weather History"
-        title="Weather History"
-        content={weatherHistoryContent()}
-        isOpen={isOpenWeatherHistory}
-        toggleHandler={weatherHistoryToggleHandler}
-      />
-    </>
+    <Accordion
+      contentHeight={contentHeight}
+      ariaControls="Weather History"
+      title="Weather History"
+      content={renderWeatherHistory()}
+      isOpen={isOpenWeatherHistory}
+      toggleHandler={weatherHistoryToggleHandler}
+    />
   );
 };
 

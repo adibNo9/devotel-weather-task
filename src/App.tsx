@@ -1,7 +1,7 @@
 import toast, { Toaster } from "react-hot-toast";
 import { QueryCache, QueryClient, QueryClientProvider } from "react-query";
 
-import WeatherContainer from "./containers/weather-container";
+import WeatherContainer from "./components/WeatherContainer";
 
 const queryClient = new QueryClient({
   defaultOptions: {

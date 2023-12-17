@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import cls from "classnames";
 import moment from "moment";
 import { LuRefreshCw } from "react-icons/lu";
 
@@ -11,7 +11,7 @@ interface IProps {
 }
 
 const HomeScreen = ({ data, refetch, isLoading }: IProps) => {
-  const reloadBtn = classNames({
+  const reloadBtn = cls({
     "animate-spin disabled:text-gray-400 disabled:cursor-not-allowed":
       isLoading,
     "hover:scale-125 active:scale-110 transition": !isLoading,
