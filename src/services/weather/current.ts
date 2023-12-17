@@ -5,10 +5,7 @@ import {
 } from 'react-query';
 
 import http from '../utils/http';
-import {
-  QueryKey,
-  QueryPayload,
-} from '../utils/types';
+import { ICurrentWeatherData, QueryKey, QueryPayload } from "../utils/types";
 
 export const fetchCurrentWeather = async ({
   queryKey,
@@ -27,7 +24,7 @@ export const useCurrentWeatherQuery = (
   options: UseQueryOptions
 ) => {
   const queryKey: QueryKey = ["current", payload];
-  return useQuery<any, Error, any, QueryKey>({
+  return useQuery<ICurrentWeatherData, Error, ICurrentWeatherData, QueryKey>({
     queryKey,
     queryFn: fetchCurrentWeather,
     enabled: !!options.enabled,
