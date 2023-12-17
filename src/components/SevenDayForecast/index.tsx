@@ -21,8 +21,6 @@ const SevenDayForeCast = () => {
     setOpenSevenDay((prevState) => !prevState);
   };
 
-  console.log(data);
-
   const sevenDayForeCastContent = () => {
     return (
       <div ref={SevenDayContentRef}>

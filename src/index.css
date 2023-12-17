@@ -12,3 +12,8 @@
     margin: 0 0.5rem;
   }
 }
+
+.react-datepicker__input-container input, .react-datepicker-wrapper {
+  @apply w-full rounded-md text-center bg-transparent border-white border;
+
+}

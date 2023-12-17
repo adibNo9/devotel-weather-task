@@ -20,6 +20,7 @@ const Accordion = ({
   title,
   ariaControls,
 }: IProps) => {
+  console.log(isOpen, "isopen");
   const buttonWrapper = cls({
     "w-full py-5 px-2 flex items-center justify-between font-medium text-xl bg-transparent border-none cursor-pointer":
       true,

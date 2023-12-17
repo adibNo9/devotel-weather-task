@@ -1,4 +1,4 @@
-export type QueryPayload = { [key: string]: number };
+export type QueryPayload = { [key: string]: number | string | null };
 
 export type QueryKey = [string, QueryPayload];
 
@@ -9,5 +9,5 @@ export interface ICurrentWeatherData {
   ob_time: string;
   pod: string;
   datetime: string;
+  max_wind_spd?: number;
 }
-
