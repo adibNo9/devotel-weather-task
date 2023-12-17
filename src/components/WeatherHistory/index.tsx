@@ -1,67 +1,22 @@
-import { useEffect, useRef, useState } from "react";
-
 import cls from "classnames";
 import moment from "moment";
 import DatePicker from "react-datepicker";
-import toast from "react-hot-toast";
 import { WiStrongWind } from "react-icons/wi";
 
-import { useAgWeatherForecastQuery } from "../../services/weather/ag-weather-forecast";
 import Accordion from "../Accordion";
+import { useLogic } from "./useLogic";
 
 const WeatherHistory = () => {
-  const weatherHistoryContentRef = useRef<HTMLDivElement | null>(null);
-  const [isOpenWeatherHistory, setOpenWeatherHistory] = useState(false);
-  const [startDate, setStartDate] = useState<Date | null>(new Date());
-  const [endDate, setEndDate] = useState<Date | null>(null);
-  const [contentHeight, setContentHeight] = useState<number>();
-
-  function formatDate(date: Date | null) {
-    if (!date) return null;
-    let d = new Date(date),
-      month = "" + (d.getMonth() + 1),
-      day = "" + d.getDate(),
-      year = d.getFullYear();
-
-    if (month.length < 2) month = "0" + month;
-    if (day.length < 2) day = "0" + day;
-
-    return [year, month, day].join("-");
-  }
-
-  const { data, isLoading, isError } = useAgWeatherForecastQuery(
-    {
-      lat: 35.7219,
-      lon: 51.3347,
-      startDate: formatDate(startDate),
-      endDate: formatDate(endDate),
-    },
-    {
-      enabled: !!endDate && !!startDate,
-    }
-  );
-
-  useEffect(() => {
-    isLoading &&
-      !isError &&
-      toast.loading("Please wait...", {
-        duration: 3000,
-      });
-  }, [isLoading, isError]);
-
-  useEffect(() => {
-    setContentHeight(weatherHistoryContentRef.current?.scrollHeight);
-  }, [isOpenWeatherHistory, data]);
-
-  const weatherHistoryToggleHandler = () => {
-    setOpenWeatherHistory((prevState) => !prevState);
-  };
-
-  const onChangeDatePicker = (dates: [Date | null, Date | null]) => {
-    const [start, end] = dates;
-    setStartDate(start);
-    setEndDate(end);
-  };
+  const {
+    isOpenWeatherHistory,
+    startDate,
+    endDate,
+    data,
+    weatherHistoryContentRef,
+    contentHeight,
+    onChangeDatePicker,
+    weatherHistoryToggleHandler,
+  } = useLogic();
 
   const weatherHistoryContent = () => {
     return (
@@ -88,7 +43,7 @@ const WeatherHistory = () => {
               "flex justify-between py-2 w-full": true,
               "border-b": index !== length - 1,
             });
-            if (!item.temp) return <></>;
+            if (!item.temp) return null;
             return (
               <div className={itemWrapper}>
                 <p className="w-24">{moment(item?.datetime).format("dddd")}</p>
