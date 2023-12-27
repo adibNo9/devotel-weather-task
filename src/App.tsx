@@ -1,7 +1,11 @@
+import { lazy, Suspense } from "react";
+
 import toast, { Toaster } from "react-hot-toast";
 import { QueryCache, QueryClient, QueryClientProvider } from "react-query";
 
-import WeatherContainer from "./components/WeatherContainer";
+import Loader from "./components/Loader";
+
+const WeatherContainer = lazy(() => import("./components/WeatherContainer"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,7 +26,9 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <WeatherContainer />
+      <Suspense fallback={<Loader />}>
+        <WeatherContainer />
+      </Suspense>
 
       <Toaster
         position="bottom-left"
